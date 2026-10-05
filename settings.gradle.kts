@@ -25,3 +25,5 @@ dependencyResolutionManagement {
 rootProject.name = "MoyaKuhnya"
 include(":app")
 include(":domain")
+include(":data")
+include(":feature")
