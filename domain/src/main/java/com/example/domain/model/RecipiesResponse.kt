@@ -1,6 +1,4 @@
-package com.example.data.repository.remote
-
-import com.example.data.repository.local.Item
+package com.example.domain.model
 
 data class RecipiesResponse(
     val items: List<Item>,
@@ -8,4 +6,3 @@ data class RecipiesResponse(
     val page: Int,
     val total: Int
 )
-

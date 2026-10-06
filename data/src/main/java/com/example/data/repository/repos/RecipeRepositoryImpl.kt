@@ -1,4 +1,4 @@
-package com.example.data.repository
+package com.example.data.repository.repos
 
 import com.example.domain.model.Recipe
 import com.example.domain.repository.RecipeRepository

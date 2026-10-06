@@ -38,4 +38,10 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     testImplementation(libs.junit)
     debugImplementation(libs.androidx.compose.ui.tooling)
+
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.11.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.11.0")
+
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.6")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.6")
 }

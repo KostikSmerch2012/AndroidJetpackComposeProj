@@ -25,7 +25,7 @@ android {
 }
 
 dependencies {
-    val room_version = "2.8.5"
+    val room_version = "2.6.1"
 
 //    implementation("androidx.room3:room3-runtime:$room_version")
 //    ksp("androidx.room3:room3-compiler:$room_version")
@@ -40,7 +40,9 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.11.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.11.0")
 
-    implementation("androidx.room3:room3-runtime:$room_version")
-    ksp("androidx.room3:room3-compiler:$room_version")
+//    implementation("androidx.room3:room3-runtime:$room_version")
+//    ksp("androidx.room3:room3-compiler:$room_version")
 }

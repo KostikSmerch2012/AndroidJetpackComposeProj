@@ -1,4 +1,4 @@
-package com.example.data.repository.local
+package com.example.domain.model
 
 data class Item(
     val authorName: String,
