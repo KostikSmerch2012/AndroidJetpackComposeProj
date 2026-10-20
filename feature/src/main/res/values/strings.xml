@@ -1,3 +1,4 @@
 <resources>
     <string name="what_cook">Что приготовим?</string>
+    <string name="cooking_description">%1$d мин · %2$.1f ★</string>
 </resources>

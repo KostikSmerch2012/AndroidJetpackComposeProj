@@ -30,11 +30,12 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.domain.model.recipie.Recipe
 import com.example.feature.screens.theme.InterFontFamily
 import com.example.feature.R
 
 @Composable
-fun RecepieCard(){
+fun RecepieCard(recipe : Recipe){
     Card(
         shape = RoundedCornerShape(topStart = 30.dp, topEnd = 12.dp, bottomEnd = 30.dp, bottomStart = 12.dp),
         modifier = Modifier
@@ -47,9 +48,27 @@ fun RecepieCard(){
         ){
             recCardImg()
             darkForeground()
-            iconTopStart()
+            recipe.tags.firstOrNull().let {
+                iconTopStart(it!!)
+            }
+
             iconTopEnd()
-            CardTextVidget()
+            Column(modifier = Modifier
+                .align(Alignment.BottomStart)
+                .padding(all = 16.dp)) {
+                Text(
+                    color = Color(0xFFFFFFFF),
+                    text = recipe.title,
+                    fontFamily = InterFontFamily,
+                    fontSize = 24.sp
+                )
+                Text(
+                    color = Color(0xFFFFFFFF),
+                    text = recipe.tags.joinToString(separator =  " • "),
+                    fontFamily = InterFontFamily,
+                    fontSize = 12.sp
+                )
+            }
         }
     }
 }
@@ -89,7 +108,7 @@ fun darkForeground(){
 //}
 
 @Composable
-fun BoxScope.iconTopStart() {
+fun BoxScope.iconTopStart(text : String) {
     Card(
         shape = RoundedCornerShape(100),
         colors = CardDefaults.cardColors(Color(0xFFFFFCF7)),
@@ -99,7 +118,7 @@ fun BoxScope.iconTopStart() {
     ) {
         Text(modifier = Modifier
             .padding(horizontal = 10.dp, vertical = 6.dp),
-        text = "ВЫБОР ДНЯ",
+            text = text,
             fontFamily = InterFontFamily,
             fontWeight = FontWeight.Bold,
             fontSize = 10.sp,
@@ -129,3 +148,5 @@ fun BoxScope.iconTopEnd(){
         }
     }
 }
+
+

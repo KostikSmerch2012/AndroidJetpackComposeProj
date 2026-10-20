@@ -1,4 +1,6 @@
-package com.example.domain.model
+package com.example.domain.model.recipie
+
+import com.example.domain.model.Item
 
 data class RecipiesResponse(
     val items: List<Item>,

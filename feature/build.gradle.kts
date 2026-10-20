@@ -39,9 +39,18 @@ dependencies {
     testImplementation(libs.junit)
     debugImplementation(libs.androidx.compose.ui.tooling)
 
+    implementation(libs.koin.android)
+
+    testImplementation(libs.koin.test.junit4)
+    testImplementation(libs.koin.android.test)
+
+
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.11.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.11.0")
 
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.6")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.6")
+
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation("io.coil-kt:coil-compose:2.4.0")
 }

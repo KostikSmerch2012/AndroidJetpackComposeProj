@@ -1,4 +1,4 @@
-package com.example.domain.model
+package com.example.domain.model.recipie
 
 data class Recipe(
     val id: String,
@@ -6,4 +6,7 @@ data class Recipe(
     val cookingTimeMinutes: Int,
     val difficulty: String,
     val isDailyPick: Boolean = false,
+    val tags : List<String>,
+    val imageUrl : String,
+    val rating : Double,
 )

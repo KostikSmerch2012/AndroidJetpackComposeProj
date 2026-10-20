@@ -1,5 +1,7 @@
 package com.example.domain.model
 
+import com.example.domain.model.recipie.MealType
+
 data class Item(
     val authorName: String,
     val calories: Int,
@@ -11,12 +13,12 @@ data class Item(
     val imageUrl: String,
     val isFeatured: Boolean,
     val isSaved: Boolean,
-    val meal: String,
+    val meal: MealType,
     val meatFree: Boolean,
     val rating: Double,
     val savesCount: Int,
     val spiciness: Any,
     val status: String,
     val tags: List<String>,
-    val title: String
+    val title: String,
 )
