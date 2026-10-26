@@ -13,9 +13,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.feature.R
 
+@Preview
 @Composable
 fun RecepieSearchBar(){
     TextField(
@@ -30,7 +32,7 @@ fun RecepieSearchBar(){
         leadingIcon = {Image(painterResource(R.drawable.leading_icon), contentDescription = null)},
         modifier = Modifier
             .fillMaxWidth()
-            .padding(all = 16.dp)
+            .padding(horizontal = 16.dp)
             .height(56.dp),
         state = rememberTextFieldState(),
         placeholder = {Text("Блюдо, продукт или кухня", color = Color(0xFF47464F))}

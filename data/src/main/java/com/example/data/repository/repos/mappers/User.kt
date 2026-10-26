@@ -2,15 +2,7 @@ package com.example.data.repository.repos.mappers
 
 
 import com.example.data.repository.remote.models.UserResponse
-import com.example.domain.model.Item
-import com.example.domain.model.recipie.Recipe
 import com.example.domain.profile.User
-
-fun List<UserResponse>.mapToUser() : List<User> {
-    return this.map {
-        it.mapToUser()
-    }
-}
 
 fun UserResponse.mapToUser() : User {
     return User(

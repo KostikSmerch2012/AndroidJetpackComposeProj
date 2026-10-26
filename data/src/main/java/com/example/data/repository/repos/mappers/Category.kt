@@ -1,18 +1,18 @@
 package com.example.data.repository.repos.mappers
 
 import com.example.domain.model.Category
-import com.example.domain.model.recipie.RecipeCategory
+import com.example.data.repository.remote.models.CategoryRemote
 
-fun List<Category>.mapToCategory() : List<RecipeCategory> {
+fun List<CategoryRemote>.mapToCategory() : List<Category> {
     return this.map {
         it.mapToCategory()
     }
 }
 
-fun Category.mapToCategory() : RecipeCategory {
-    return RecipeCategory(
-        id = this.id.toString(),
-        name = this.name.toString(),
-        iconKey = this.iconKey.toString()
+fun CategoryRemote.mapToCategory() : Category {
+    return Category(
+        id = this.id,
+        name = this.name,
+        iconKey = this.iconKey
     )
 }

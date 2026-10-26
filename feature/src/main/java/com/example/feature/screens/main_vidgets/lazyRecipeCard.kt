@@ -1,21 +1,21 @@
 package com.example.feature.screens.main_vidgets
 
+import android.util.Log
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.snapping.SnapPosition
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -27,27 +27,26 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.domain.model.Category
 import com.example.domain.model.recipie.Recipe
-import com.example.domain.model.recipie.RecipeCategory
-import com.example.feature.screens.theme.InterFontFamily
 import com.example.feature.R
+import com.example.feature.screens.theme.InterFontFamily
+import okhttp3.internal.wait
 
 @Composable
 fun lazyRecipeCard(recipe : Recipe){
     Column(
         Modifier.padding(
-            start = 16.dp)
+            start = 16.dp).wrapContentWidth()
     ) {
         Card(
             shape = RoundedCornerShape(topStart = 30.dp, topEnd = 12.dp, bottomEnd = 30.dp, bottomStart = 12.dp),
@@ -76,8 +75,10 @@ fun lazyRecipeCard(recipe : Recipe){
         Spacer(Modifier.height(8.dp))
 
         Text(
+            modifier = Modifier.width(173.dp),
             color = Color(0xFF29261F),
             text = recipe.title,
+            maxLines = 2,
             fontFamily = InterFontFamily,
             fontSize = 14.sp
         )
@@ -138,12 +139,12 @@ fun BoxScope.ScrollableTopStartCard(text : String) {
             .align(Alignment.TopStart)
     ) {
         Text(modifier = Modifier
-            .padding(horizontal = 9.dp, vertical = 5.dp),
-            text = text,
+            .padding(horizontal = 9.dp),
+            text = text.uppercase(),
             fontFamily = InterFontFamily,
             fontWeight = FontWeight.Bold,
             fontSize = 10.sp,
-            color = Color(0xFF3E7B58)
+            color = MaterialTheme.colorScheme.secondaryFixed
         )
     }
 }
@@ -171,28 +172,63 @@ fun BoxScope.iconTopend(){
 }
 
 @Composable
-fun BoxScope.CategoriesCard(text: String){
-    Text(
-        text = text
-    )
-
+fun CategoriesCard(categories: List<Category>){
     Row(
+        modifier = Modifier.fillMaxWidth()
+            .padding(horizontal = 31.dp),
         horizontalArrangement=Arrangement.SpaceBetween
     ){
-        when {
-
+        for (category in categories.subList(0,  4.coerceAtMost(categories.size))) {
+            CategoryCardWidget(category)
         }
+    }
+}
+@Composable
+fun CategoryText() {
+    Row (modifier = Modifier
+        .padding(start = 16.dp, end = 16.dp, bottom = 10.dp)
+        .fillMaxWidth(), verticalAlignment = Alignment.CenterVertically){
+        Text(text = "По настроению",
+            fontFamily = InterFontFamily,
+            fontSize = 20.sp)
+        Spacer(modifier = Modifier.weight(1f))
+        Text(
+            text = "Все категории",
+            fontFamily = InterFontFamily,
+            fontSize = 12.sp,
+            color = MaterialTheme.colorScheme.secondaryFixed
+        )
     }
 }
 
 @Composable
-fun BoxScope.CategoryCardWidget(category: RecipeCategory){
-    Card(
-        shape = RoundedCornerShape(topStart = 16.dp, topEnd = 8.dp, bottomEnd = 16.dp, bottomStart = 8.dp),
-        colors = CardDefaults.cardColors(Color(0xFFDDE9DC).copy(alpha = 0.9f))
+fun CategoryCardWidget(category: Category){
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Card(
+            modifier = Modifier.size(48.dp),
+            shape = RoundedCornerShape(topStart = 16.dp, topEnd = 8.dp, bottomEnd = 16.dp, bottomStart = 8.dp),
+            colors = CardDefaults.cardColors(Color(0xFFDDE9DC).copy(alpha = 0.9f))
         ) {
-        Box(modifier = Modifier
-            .fillMaxSize()) { }
-        category.iconKey
+           Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
+               Image(
+                   painter = painterResource(iconKeyToDrawable(category.iconKey ?: "")),
+                   contentDescription = null
+               )
+           }
+        }
+        Text(
+            text=category.name,
+            fontFamily = InterFontFamily,
+            fontSize = 10.sp
+        )
+    }
+}
+fun iconKeyToDrawable(iconKey : String?) : Int {
+    return when (iconKey) {
+        "bowl" -> R.drawable.bowl
+        "timer" -> R.drawable.timer
+        "sunrise" -> R.drawable.sunrise
+        "croussaint" -> R.drawable.croissant
+        else -> R.drawable.dish
     }
 }

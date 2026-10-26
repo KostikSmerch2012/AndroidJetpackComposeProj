@@ -4,5 +4,5 @@ import com.example.domain.profile.User
 
 interface UserRepository {
     suspend fun getUser(): User?
-    suspend fun insertUser(user: User)
+//    suspend fun getUserName(): User?
 }

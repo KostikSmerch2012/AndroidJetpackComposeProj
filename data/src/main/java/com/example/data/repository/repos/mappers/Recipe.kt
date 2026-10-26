@@ -1,6 +1,6 @@
 package com.example.data.repository.repos.mappers
 
-import com.example.domain.model.Item
+import com.example.data.repository.remote.models.Item
 import com.example.domain.model.recipie.Recipe
 
 fun List<Item>.mapToRecipe() : List<Recipe> {

@@ -1,4 +1,4 @@
-package com.example.domain.model
+package com.example.data.repository.remote.models
 
 import com.example.domain.model.recipie.MealType
 

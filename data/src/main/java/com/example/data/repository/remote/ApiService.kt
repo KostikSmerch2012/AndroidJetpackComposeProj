@@ -1,9 +1,8 @@
 package com.example.data.repository.remote
 
+import com.example.data.repository.remote.models.CategoriesResponse
 import com.example.data.repository.remote.models.UserResponse
-import com.example.domain.model.recipie.RecipeCategory
-import com.example.domain.model.recipie.RecipiesResponse
-import com.example.domain.profile.User
+import com.example.data.repository.remote.models.RecipiesResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -34,6 +33,6 @@ interface ApiService {
     @GET("profile")
     suspend fun getUser() : Response<UserResponse>
 
-    @GET("category")
-    suspend fun getCategory() : Response<RecipeCategory>
+    @GET("categories")
+    suspend fun getCategories() : Response<CategoriesResponse>
 }

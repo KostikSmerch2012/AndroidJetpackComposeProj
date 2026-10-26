@@ -1,24 +1,22 @@
 package com.example.feature.home
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.domain.model.Category
 import com.example.domain.model.recipie.Recipe
-import com.example.domain.model.recipie.RecipeCategory
+import com.example.domain.profile.User
 import com.example.domain.repository.CategoryRepository
 import com.example.domain.repository.RecipeRepository
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
+import com.example.domain.repository.UserRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import org.koin.core.KoinApplication.Companion.init
 import org.koin.java.KoinJavaComponent.get
 
 class HomeViewModel : ViewModel() {
     val recipeRepository : RecipeRepository = get(RecipeRepository::class.java)
     val categoryRepository : CategoryRepository = get(CategoryRepository::class.java)
+    val userRepository : UserRepository = get(UserRepository::class.java)
 
     private val _dailyRecipe : MutableStateFlow<Recipe?> = MutableStateFlow(null)
     val dailyRecipe : StateFlow<Recipe?>
@@ -29,13 +27,17 @@ class HomeViewModel : ViewModel() {
 
         get() =  _recipes
 
-    private val _category : MutableStateFlow<RecipeCategory?> = MutableStateFlow(null)
-    val category : StateFlow<RecipeCategory?>
-        get() = _category
+    private val _categories : MutableStateFlow<List<Category>> = MutableStateFlow(emptyList())
+    val categories : StateFlow<List<Category>>
+        get() = _categories
+
+    private val _user : MutableStateFlow<User?> = MutableStateFlow(null)
+    val user : StateFlow<User?>
+        get() = _user
 
     init {
         viewModelScope.launch {
-            val recipesResponse = recipeRepository.getRecipes(null)
+            val recipesResponse = recipeRepository.getRecipesTasteToday(null)
             _recipes.emit(recipesResponse)
         }
         viewModelScope.launch {
@@ -43,8 +45,12 @@ class HomeViewModel : ViewModel() {
             _dailyRecipe.emit(dailyRecipeResponse)
         }
         viewModelScope.launch {
-            val categoryRecipeResponce = categoryRepository.getCategory()
-            _category.emit(categoryRecipeResponce)
+            val categoriesRecipeResponce: List<Category> = categoryRepository.getCategories()
+            _categories.emit(categoriesRecipeResponce)
+        }
+        viewModelScope.launch {
+            val userResponse = userRepository.getUser()
+            _user.emit(userResponse)
         }
     }
 }

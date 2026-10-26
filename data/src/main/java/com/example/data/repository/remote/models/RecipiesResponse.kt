@@ -1,6 +1,4 @@
-package com.example.domain.model.recipie
-
-import com.example.domain.model.Item
+package com.example.data.repository.remote.models
 
 data class RecipiesResponse(
     val items: List<Item>,

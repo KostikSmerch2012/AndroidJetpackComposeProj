@@ -3,7 +3,7 @@ package com.example.data.repository.repos
 import android.util.Log
 import com.example.data.repository.remote.RecipeRemoteDataSource
 import com.example.data.repository.repos.mappers.mapToRecipe
-import com.example.domain.model.Item
+import com.example.data.repository.remote.models.Item
 import com.example.domain.model.recipie.Recipe
 import com.example.domain.repository.RecipeRepository
 
@@ -30,4 +30,14 @@ class RecipeRepositoryImpl(
         return recipes
     }
 
+    override suspend fun getRecipesTasteToday(
+        query : String?
+    ): List<Recipe> {
+        return this.getRecipes(
+            query
+        ).filter {
+           !it.tags.contains("выбор дня") &&  !it.tags.contains("выбор редакции")
+
+        }
+    }
 }

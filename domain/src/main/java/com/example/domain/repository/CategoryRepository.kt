@@ -1,7 +1,7 @@
 package com.example.domain.repository
 
-import com.example.domain.model.recipie.RecipeCategory
+import com.example.domain.model.Category
 
 interface CategoryRepository {
-    suspend fun getCategory(): RecipeCategory?
+    suspend fun getCategories(): List<Category>
 }
