@@ -2,6 +2,7 @@ package com.example.data.repository.remote
 
 import android.util.Log
 import com.example.data.repository.remote.models.CategoriesResponse
+import com.example.data.repository.remote.models.Item
 import com.example.data.repository.remote.models.UserResponse
 import com.example.data.repository.remote.models.RecipiesResponse
 import com.example.domain.model.recipie.SortType
@@ -17,7 +18,8 @@ class RecipeRemoteDataSource(private val apiService : ApiService) {
         category: String? = null,
         sort: SortType? = null,
         page: Int? = null,
-        limit: Int? = null
+        limit: Int? = null,
+        authorName: String? = null
     ) : ResponseModel<RecipiesResponse> {
         try {
             val response = apiService.getRecipes(
@@ -29,12 +31,25 @@ class RecipeRemoteDataSource(private val apiService : ApiService) {
                 category,
                 sort?.nameStr,
                 page,
-                limit
+                limit,
+                authorName
             )
 //            if (response.code() >= 400) {
 //                return ResponseModel(error = response.
 //            }
             Log.i(this::class.java.name, "Recipies " + response.body().toString())
+            val responseBody = response.body() ?: return ResponseModel(error = "Неизвестная ошибка")
+            return ResponseModel(responseBody)
+        } catch (e : Exception) {
+            Log.i(this::class.java.name, "error " + e.toString())
+            return ResponseModel(error = e.toString())
+        }
+    }
+
+    suspend fun getRecipe(id: Int) : ResponseModel<Item> {
+        try {
+            val response = apiService.getRecipe(id)
+
             val responseBody = response.body() ?: return ResponseModel(error = "Неизвестная ошибка")
             return ResponseModel(responseBody)
         } catch (e : Exception) {

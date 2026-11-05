@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.example.feature.home.MainScreen
+import com.example.feature.UIHost
 import com.example.feature.screens.theme.MoyaKuhnyaTheme
 
 class MainActivity : ComponentActivity() {
@@ -13,7 +13,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MoyaKuhnyaTheme(dynamicColor = false) {
-                MainScreen()
+                UIHost()
             }
         }
     }

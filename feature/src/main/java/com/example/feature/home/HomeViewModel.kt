@@ -18,9 +18,9 @@ class HomeViewModel : ViewModel() {
     val categoryRepository : CategoryRepository = get(CategoryRepository::class.java)
     val userRepository : UserRepository = get(UserRepository::class.java)
 
-    private val _dailyRecipe : MutableStateFlow<Recipe?> = MutableStateFlow(null)
-    val dailyRecipe : StateFlow<Recipe?>
-        get() = _dailyRecipe
+    private val _dailyRecipes : MutableStateFlow<List<Recipe>> = MutableStateFlow(listOf())
+    val dailyRecipes : StateFlow<List<Recipe>>
+        get() = _dailyRecipes
 
     private val _recipes : MutableStateFlow<List<Recipe>> = MutableStateFlow(emptyList())
     val recipes : StateFlow<List<Recipe>>
@@ -41,8 +41,8 @@ class HomeViewModel : ViewModel() {
             _recipes.emit(recipesResponse)
         }
         viewModelScope.launch {
-            val dailyRecipeResponse = recipeRepository.getDailyRecipe()
-            _dailyRecipe.emit(dailyRecipeResponse)
+            val dailyRecipesResponse = recipeRepository.getDailyRecipes()
+            _dailyRecipes.emit(dailyRecipesResponse)
         }
         viewModelScope.launch {
             val categoriesRecipeResponce: List<Category> = categoryRepository.getCategories()

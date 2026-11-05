@@ -11,10 +11,22 @@ class RecipeRepositoryImpl(
     val recipeRemoteDataSource: RecipeRemoteDataSource
     ) : RecipeRepository {
 
-    override suspend fun getDailyRecipe(): Recipe?  {
+    override suspend fun getDailyRecipes(): List<Recipe>  {
         val recipes : List<Recipe> = (recipeRemoteDataSource.getRecipes().response?.items ?: emptyList<Item>()).mapToRecipe()
         Log.i(this::class.java.name, "Recipies " + recipes)
-        return recipes.firstOrNull { it.isDailyPick }
+        try {
+            return listOf(recipes.filter { it.isDailyPick }.first(), recipes.filter { it.isRedactionPick }.first())
+        } catch (_: Exception) {
+            return emptyList()
+        }
+    }
+
+    override suspend fun getRecipe(id: Int): Recipe? {
+        return try {
+            recipeRemoteDataSource.getRecipe(id).response?.mapToRecipe()
+        } catch (_: Exception) {
+            null
+        }
     }
 
     override suspend fun getRecipes(

@@ -1,10 +1,7 @@
 package com.example.feature.home
 
-import android.util.Log
 import androidx.compose.foundation.interaction.collectIsDraggedAsState
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.PageSize
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -13,17 +10,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
-import androidx.compose.ui.unit.dp
 import com.example.domain.model.recipie.Recipe
-import com.example.feature.screens.main_vidgets.RecepieCard
-import com.example.feature.screens.main_vidgets.lazyRecipeCard
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import com.example.feature.screens.main_widgets.RecepieCard
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 @Composable
-fun HorizontalCorousel(recipes : List<Recipe>) {
+fun HorizontalCorousel(recipes : List<Recipe>, onClick : (recipe: Recipe) -> Unit) {
 
     var directionForward by remember { mutableStateOf(true) }
 
@@ -53,6 +45,8 @@ fun HorizontalCorousel(recipes : List<Recipe>) {
     HorizontalPager(
         state = state
     ) {
-        RecepieCard(recipes.get(it))
+        RecepieCard(recipes.get(it), {
+            onClick(recipes.get(it))
+        })
     }
 }

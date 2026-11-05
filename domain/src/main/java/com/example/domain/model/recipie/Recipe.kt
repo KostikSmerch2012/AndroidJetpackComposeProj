@@ -6,7 +6,9 @@ data class Recipe(
     val cookingTimeMinutes: Int,
     val difficulty: String,
     val isDailyPick: Boolean = false,
+    val isRedactionPick: Boolean = false,
     val tags : List<String>,
     val imageUrl : String,
     val rating : Double,
+    val authorName : String
 )

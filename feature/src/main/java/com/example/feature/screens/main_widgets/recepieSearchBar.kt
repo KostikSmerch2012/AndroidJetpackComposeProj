@@ -1,4 +1,4 @@
-package com.example.feature.screens.main_vidgets
+package com.example.feature.screens.main_widgets
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxWidth

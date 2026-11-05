@@ -16,8 +16,10 @@ fun Item.mapToRecipe() : Recipe {
         cookingTimeMinutes = this.cookingTimeMinutes,
         difficulty = this.difficulty,
         isDailyPick = this.tags.contains("выбор дня"),
+        isRedactionPick = this.tags.contains("выбор редакции"),
         tags = this.tags,
         imageUrl = this.imageUrl,
         rating = this.rating,
+        authorName = this.authorName
     )
 }

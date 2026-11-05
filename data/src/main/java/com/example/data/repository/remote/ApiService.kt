@@ -1,10 +1,12 @@
 package com.example.data.repository.remote
 
 import com.example.data.repository.remote.models.CategoriesResponse
+import com.example.data.repository.remote.models.Item
 import com.example.data.repository.remote.models.UserResponse
 import com.example.data.repository.remote.models.RecipiesResponse
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService {
@@ -27,8 +29,17 @@ interface ApiService {
         @Query("page")
         page : Int?,
         @Query("limit")
-        limit : Int?
+        limit : Int?,
+        @Query("authorName")
+        authorName : String?
         ) : Response<RecipiesResponse>
+
+    @GET("recipes/{id}")
+    suspend fun getRecipe(
+        @Path("id")
+        id : Int
+    ) : Response<Item>
+
 
     @GET("profile")
     suspend fun getUser() : Response<UserResponse>

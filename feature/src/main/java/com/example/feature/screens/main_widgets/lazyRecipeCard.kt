@@ -1,8 +1,7 @@
-package com.example.feature.screens.main_vidgets
+package com.example.feature.screens.main_widgets
 
-import android.util.Log
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.gestures.snapping.SnapPosition
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -30,23 +29,19 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.domain.model.Category
 import com.example.domain.model.recipie.Recipe
 import com.example.feature.R
 import com.example.feature.screens.theme.InterFontFamily
-import okhttp3.internal.wait
 
 @Composable
-fun lazyRecipeCard(recipe : Recipe){
+fun lazyRecipeCard(recipe : Recipe, onClick : () -> Unit){
     Column(
         Modifier.padding(
-            start = 16.dp).wrapContentWidth()
+            start = 16.dp).wrapContentWidth().clickable { onClick( )}
     ) {
         Card(
             shape = RoundedCornerShape(topStart = 30.dp, topEnd = 12.dp, bottomEnd = 30.dp, bottomStart = 12.dp),
@@ -144,7 +139,7 @@ fun BoxScope.ScrollableTopStartCard(text : String) {
             fontFamily = InterFontFamily,
             fontWeight = FontWeight.Bold,
             fontSize = 10.sp,
-            color = MaterialTheme.colorScheme.secondaryFixed
+            color = MaterialTheme.colorScheme.secondary
         )
     }
 }
@@ -190,13 +185,32 @@ fun CategoryText() {
         .fillMaxWidth(), verticalAlignment = Alignment.CenterVertically){
         Text(text = "По настроению",
             fontFamily = InterFontFamily,
-            fontSize = 20.sp)
+            fontSize = 20.sp,
+            )
         Spacer(modifier = Modifier.weight(1f))
         Text(
             text = "Все категории",
+            color = MaterialTheme.colorScheme.secondary,
             fontFamily = InterFontFamily,
             fontSize = 12.sp,
-            color = MaterialTheme.colorScheme.secondaryFixed
+        )
+    }
+}
+
+@Composable
+fun CategoryCardText(){
+    Row (modifier = Modifier
+        .padding(start = 16.dp, end = 16.dp, bottom = 10.dp)
+        .fillMaxWidth(), verticalAlignment = Alignment.CenterVertically){
+        Text(text = "Попробовать сегодня",
+            fontFamily = InterFontFamily,
+            fontSize = 20.sp)
+        Spacer(modifier = Modifier.weight(1f))
+        Text(
+            text = "Смотреть все",
+            fontFamily = InterFontFamily,
+            fontSize = 12.sp,
+            color = MaterialTheme.colorScheme.secondary
         )
     }
 }
@@ -207,7 +221,10 @@ fun CategoryCardWidget(category: Category){
         Card(
             modifier = Modifier.size(48.dp),
             shape = RoundedCornerShape(topStart = 16.dp, topEnd = 8.dp, bottomEnd = 16.dp, bottomStart = 8.dp),
-            colors = CardDefaults.cardColors(Color(0xFFDDE9DC).copy(alpha = 0.9f))
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.secondaryContainer)
+
+//            colors = CardDefaults.cardColors(Color(0xFFDDE9DC).copy(alpha = 0.9f))
         ) {
            Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
                Image(
