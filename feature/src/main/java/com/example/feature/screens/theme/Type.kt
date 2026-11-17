@@ -1,17 +1,20 @@
 package com.example.feature.screens.theme
 
 import androidx.compose.material3.Typography
+import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontVariation
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.example.feature.R
 
+@OptIn(ExperimentalTextApi::class)
 val InterFontFamily = FontFamily(
     Font(resId = R.font.inter_normal, weight = FontWeight.Normal),
     Font(resId = R.font.inter_italic, weight = FontWeight.Normal),
-    Font(resId = R.font.inter_normal, weight = FontWeight.Bold)
+    Font(resId = R.font.inter_normal, weight = FontWeight.Bold, variationSettings = FontVariation.Settings(FontVariation.weight(700)))
     )
 
 val Typography = Typography(

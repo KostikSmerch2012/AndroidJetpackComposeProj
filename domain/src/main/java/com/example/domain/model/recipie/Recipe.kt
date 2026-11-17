@@ -10,5 +10,9 @@ data class Recipe(
     val tags : List<String>,
     val imageUrl : String,
     val rating : Double,
-    val authorName : String
+    val authorName : String,
+    val description: String,
+    val servings: Int,
+    val calories: Int,
+    val ingredients: List<Ingredients>?
 )

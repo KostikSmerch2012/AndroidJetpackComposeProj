@@ -15,6 +15,8 @@ val KuhnyaBackground = Color(0xFFF6F1E8) // фон приложения
 val KuhnyaSurface = Color(0xFFFFFCF7) // Карточки
 val KuhnyaOnSecondary = Color(0xFF3E7B58) // выбранная иконка
 val KuhnyaSecondaryContainer = Color(0xFFDDE9DC) // окантовки
+val KuhnyaTeritary = Color(0xFF756E62) // блеклый текст
+val KuhnyaOnTeritary = Color(0xFFFFFFFF)
 
 /* Other default colors to override
   background = Color(0xFFFFFBFE),

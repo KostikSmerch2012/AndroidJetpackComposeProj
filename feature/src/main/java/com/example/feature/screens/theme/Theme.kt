@@ -25,7 +25,8 @@ private val LightColorScheme = lightColorScheme(
     secondaryContainer = KuhnyaSecondaryContainer,
     background = KuhnyaBackground,
     surface = KuhnyaSurface,
-    tertiary = Pink40,
+    tertiary = KuhnyaTeritary,
+    onTertiary = KuhnyaOnTeritary
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),

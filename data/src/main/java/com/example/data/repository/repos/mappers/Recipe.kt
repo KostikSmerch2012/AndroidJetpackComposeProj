@@ -20,6 +20,10 @@ fun Item.mapToRecipe() : Recipe {
         tags = this.tags,
         imageUrl = this.imageUrl,
         rating = this.rating,
-        authorName = this.authorName
+        authorName = this.authorName,
+        description = this.description.orEmpty(),
+        servings = this.servings,
+        calories = this.calories,
+        ingredients = this.ingredients
     )
 }

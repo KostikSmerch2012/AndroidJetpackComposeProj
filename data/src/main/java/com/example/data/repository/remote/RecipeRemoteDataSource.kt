@@ -5,6 +5,7 @@ import com.example.data.repository.remote.models.CategoriesResponse
 import com.example.data.repository.remote.models.Item
 import com.example.data.repository.remote.models.UserResponse
 import com.example.data.repository.remote.models.RecipiesResponse
+import com.example.domain.model.recipie.Ingredients
 import com.example.domain.model.recipie.SortType
 
 class RecipeRemoteDataSource(private val apiService : ApiService) {
@@ -19,7 +20,11 @@ class RecipeRemoteDataSource(private val apiService : ApiService) {
         sort: SortType? = null,
         page: Int? = null,
         limit: Int? = null,
-        authorName: String? = null
+        authorName: String? = null,
+        description: String? = null,
+        servings: Int? = null,
+        calories: Int? = null,
+        ingredients: List<Ingredients>? = null
     ) : ResponseModel<RecipiesResponse> {
         try {
             val response = apiService.getRecipes(
@@ -32,7 +37,11 @@ class RecipeRemoteDataSource(private val apiService : ApiService) {
                 sort?.nameStr,
                 page,
                 limit,
-                authorName
+                authorName,
+                description,
+                servings,
+                calories,
+                ingredients
             )
 //            if (response.code() >= 400) {
 //                return ResponseModel(error = response.

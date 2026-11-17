@@ -4,6 +4,7 @@ import com.example.data.repository.remote.models.CategoriesResponse
 import com.example.data.repository.remote.models.Item
 import com.example.data.repository.remote.models.UserResponse
 import com.example.data.repository.remote.models.RecipiesResponse
+import com.example.domain.model.recipie.Ingredients
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -13,37 +14,45 @@ interface ApiService {
     @GET("recipes")
     suspend fun getRecipes(
         @Query("q")
-        query : String?,
+        query: String?,
         @Query("maxTime")
-        maxTime : Int?,
+        maxTime: Int?,
         @Query("meal")
-        meal : String?,
+        meal: String?,
         @Query("meatFree")
-        meatFree : Boolean?,
+        meatFree: Boolean?,
         @Query("cuisine")
-        cuisine : String?,
+        cuisine: String?,
         @Query("category")
-        category : String?,
+        category: String?,
         @Query("sort")
-        sort : String?,
+        sort: String?,
         @Query("page")
-        page : Int?,
+        page: Int?,
         @Query("limit")
-        limit : Int?,
+        limit: Int?,
         @Query("authorName")
-        authorName : String?
-        ) : Response<RecipiesResponse>
+        authorName: String?,
+        @Query("description")
+        description: String?,
+        @Query("servings")
+        servings: Int?,
+        @Query("calories")
+        calories: Int?,
+        @Query("ingredients")
+        ingredients: List<Ingredients>?
+    ): Response<RecipiesResponse>
 
     @GET("recipes/{id}")
     suspend fun getRecipe(
         @Path("id")
-        id : Int
-    ) : Response<Item>
+        id: Int
+    ): Response<Item>
 
 
     @GET("profile")
-    suspend fun getUser() : Response<UserResponse>
+    suspend fun getUser(): Response<UserResponse>
 
     @GET("categories")
-    suspend fun getCategories() : Response<CategoriesResponse>
+    suspend fun getCategories(): Response<CategoriesResponse>
 }

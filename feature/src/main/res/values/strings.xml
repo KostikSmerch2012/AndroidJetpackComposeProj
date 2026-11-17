@@ -3,4 +3,11 @@
     <string name="cooking_description">%1$d мин · %2$.1f ★</string>
     <string name="greeting_field">Доброе утро, %1$s</string>
     <string name="user_cooking">%1$s · %2$s</string>
+    <string name="time_cooking">%1$d минут</string>
+    <plurals name="servings_amount">
+        <item quantity="one">%1$d порция</item>
+        <item quantity="few">%1$d порции</item>
+        <item quantity="many">%1$d порций</item>
+        <item quantity="other">%1$d порций</item>
+    </plurals>
 </resources>
