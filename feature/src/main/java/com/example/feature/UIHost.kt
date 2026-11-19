@@ -13,6 +13,7 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarDefaults
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemColors
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -44,7 +45,7 @@ fun UIHost() {
     Scaffold(
         modifier = Modifier.imePadding(),
         bottomBar = {
-            NavigationBar(windowInsets = NavigationBarDefaults.windowInsets, containerColor = Color(0xFFFFFCF7)) {
+            NavigationBar(containerColor = MaterialTheme.colorScheme.background, windowInsets = NavigationBarDefaults.windowInsets) {
                 DestinationNavBar.entries.forEachIndexed { index, destination ->
                     NavigationBarItem(
                         selected = selectedDestination == index,
@@ -59,9 +60,14 @@ fun UIHost() {
                                 contentDescription = null
                             )
                         },
-                        label = { Text(destination.label) }
+                        label = { Text(destination.label) },
+                        colors = NavigationBarItemDefaults.colors(
+                            selectedIconColor = MaterialTheme.colorScheme.secondary,
+                            selectedTextColor = MaterialTheme.colorScheme.secondary,
+                            unselectedIconColor = MaterialTheme.colorScheme.tertiary,
+                            unselectedTextColor = MaterialTheme.colorScheme.tertiary,
+                            )
                     )
-
                 }
             }
         }

@@ -10,4 +10,6 @@
         <item quantity="many">%1$d порций</item>
         <item quantity="other">%1$d порций</item>
     </plurals>
+    <string name="recipe_item_units">%1$d %2$s</string>
+    <string name="step_number">%1$d</string>
 </resources>

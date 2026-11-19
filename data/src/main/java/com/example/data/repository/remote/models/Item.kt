@@ -2,6 +2,7 @@ package com.example.data.repository.remote.models
 
 import com.example.domain.model.recipie.Ingredients
 import com.example.domain.model.recipie.MealType
+import com.example.domain.model.recipie.Steps
 
 data class Item(
     val authorName: String,
@@ -24,5 +25,6 @@ data class Item(
     val title: String,
     val description: String?,
     val servings: Int,
-    val ingredients: List<Ingredients>
+    val ingredients: List<Ingredients>,
+    val steps: List<Steps>
 )

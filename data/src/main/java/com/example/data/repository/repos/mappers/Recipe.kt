@@ -24,6 +24,7 @@ fun Item.mapToRecipe() : Recipe {
         description = this.description.orEmpty(),
         servings = this.servings,
         calories = this.calories,
-        ingredients = this.ingredients
+        ingredients = this.ingredients,
+        steps = this.steps
     )
 }

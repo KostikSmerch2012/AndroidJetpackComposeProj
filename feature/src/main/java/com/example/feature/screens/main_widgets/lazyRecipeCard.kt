@@ -44,7 +44,7 @@ fun lazyRecipeCard(recipe : Recipe, onClick : () -> Unit){
             start = 16.dp).wrapContentWidth().clickable { onClick( )}
     ) {
         Card(
-            shape = RoundedCornerShape(topStart = 30.dp, topEnd = 12.dp, bottomEnd = 30.dp, bottomStart = 12.dp),
+            shape = RoundedCornerShape(topStart = 24.dp, topEnd = 10.dp, bottomEnd = 24.dp, bottomStart = 10.dp),
             modifier = Modifier
                 .padding(
                     top = 10.dp,
@@ -63,7 +63,7 @@ fun lazyRecipeCard(recipe : Recipe, onClick : () -> Unit){
                 iconTopend()
                 Column(modifier = Modifier
                     .align(Alignment.BottomStart)
-                    .padding(all = 16.dp)) {
+                    .padding(all = 14.dp)) {
                 }
             }
         }
@@ -130,7 +130,7 @@ fun BoxScope.ScrollableTopStartCard(text : String) {
         shape = RoundedCornerShape(100),
         colors = CardDefaults.cardColors(Color(0xFFFFFCF7)),
         modifier = Modifier
-            .padding(all = 16.dp)
+            .padding(all = 9.dp)
             .align(Alignment.TopStart)
     ) {
         Text(modifier = Modifier
@@ -139,7 +139,7 @@ fun BoxScope.ScrollableTopStartCard(text : String) {
             fontFamily = InterFontFamily,
             fontWeight = FontWeight.Bold,
             fontSize = 10.sp,
-            color = MaterialTheme.colorScheme.secondary
+            color = MaterialTheme.colorScheme.primary
         )
     }
 }
@@ -148,9 +148,9 @@ fun BoxScope.ScrollableTopStartCard(text : String) {
 fun BoxScope.iconTopend(){
     Card(
         shape = CircleShape,
-        colors = CardDefaults.cardColors(Color(0xFFFFFFFFE8).copy(alpha = 0.9f)),
+        colors = CardDefaults.cardColors(Color(0xFFFFFFFF).copy(alpha = 0.9f)),
         modifier = Modifier
-            .padding(vertical = 16.dp, horizontal = 16.dp)
+            .padding(vertical = 9.dp, horizontal = 9.dp)
             .align(Alignment.TopEnd)
             .size(30.dp)) {
         Box(modifier = Modifier
@@ -186,7 +186,8 @@ fun CategoryText() {
         Text(text = "По настроению",
             fontFamily = InterFontFamily,
             fontSize = 20.sp,
-            )
+            color = MaterialTheme.colorScheme.primary
+        )
         Spacer(modifier = Modifier.weight(1f))
         Text(
             text = "Все категории",
@@ -204,7 +205,9 @@ fun CategoryCardText(){
         .fillMaxWidth(), verticalAlignment = Alignment.CenterVertically){
         Text(text = "Попробовать сегодня",
             fontFamily = InterFontFamily,
-            fontSize = 20.sp)
+            fontSize = 20.sp,
+            color = MaterialTheme.colorScheme.primary
+        )
         Spacer(modifier = Modifier.weight(1f))
         Text(
             text = "Смотреть все",
@@ -236,7 +239,8 @@ fun CategoryCardWidget(category: Category){
         Text(
             text=category.name,
             fontFamily = InterFontFamily,
-            fontSize = 10.sp
+            fontSize = 10.sp,
+            color = MaterialTheme.colorScheme.primary
         )
     }
 }
@@ -245,7 +249,7 @@ fun iconKeyToDrawable(iconKey : String?) : Int {
         "bowl" -> R.drawable.bowl
         "timer" -> R.drawable.timer
         "sunrise" -> R.drawable.sunrise
-        "croussaint" -> R.drawable.croissant
+        "croissant" -> R.drawable.croissant
         else -> R.drawable.dish
     }
 }

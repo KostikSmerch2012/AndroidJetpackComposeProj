@@ -14,5 +14,6 @@ data class Recipe(
     val description: String,
     val servings: Int,
     val calories: Int,
-    val ingredients: List<Ingredients>?
+    val ingredients: List<Ingredients>?,
+    val steps: List<Steps>?
 )

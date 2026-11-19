@@ -1,6 +1,8 @@
 package com.example.feature.screens.recipe_screen_widgets
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.snapping.SnapPosition
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,6 +16,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -21,7 +26,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -32,9 +36,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.example.domain.model.recipie.Ingredients
 import com.example.domain.model.recipie.Recipe
 import com.example.feature.R
 import com.example.feature.screens.theme.InterFontFamily
+import androidx.compose.foundation.lazy.staggeredgrid.items
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.text.style.LineHeightStyle
+import com.example.domain.model.recipie.Steps
 
 
 @Composable
@@ -69,8 +78,8 @@ fun RecipeImageCard(recipe: Recipe){
     AsyncImage(
         model = recipe.imageUrl,
         contentDescription = null,
-        modifier = Modifier.fillMaxWidth(),
-        contentScale = ContentScale.FillWidth
+        modifier = Modifier.fillMaxSize(),
+        contentScale = ContentScale.Crop
 
     )
 }
@@ -169,24 +178,30 @@ fun UserCooking(recipe: Recipe) {
 fun RecipeInfoCard(recipe : Recipe){
     Card(
         modifier = Modifier
-            .fillMaxSize(),
+        //        .fillMaxSize(),ПУ ПУ ПУ - ТЫ В LazyColumn ебашишь fillmaxsize = fillmaxheight - а откуда лейзиколумну считать область прокрутки если у тебя fill max size, если высота не ограничена мля  Vertically scrollable component was measured with an infinity maximum height constraints, which is disallowed
+            .fillMaxWidth(),
         colors = CardDefaults.cardColors(
         containerColor = MaterialTheme.colorScheme.surface,
     )) {
         Column(modifier = Modifier
             .padding(start = 18.dp, top = 15.dp, end = 18.dp)
         ) {
+            //смотри все дочерние элементы чтобы не было fillMaxHeight ( size )
             RecipeHeader(recipe)
             Text(
                 text = recipe.description,
                 color = MaterialTheme.colorScheme.tertiary,
                 fontFamily = InterFontFamily,
-                fontSize = 12.sp
+                fontSize = 12.sp,
+                lineHeight = 16.sp
             )
             RecipeCookingInfoCard(recipe)
             IngridienrsInfoRow(recipe)
+            Spacer(Modifier.height(9.dp))
+            RecipeGridIngredients(recipe.ingredients.orEmpty())
         }
     }
+    CookingTutorial(recipe.steps.orEmpty())
 }
 
 @Composable
@@ -197,7 +212,8 @@ fun RecipeHeader(recipe: Recipe){
             text = recipe.title,
             fontFamily = InterFontFamily,
             fontSize = 27.sp,
-            maxLines = 2
+            maxLines = 2,
+            color = MaterialTheme.colorScheme.primary
         )
 //        Spacer(modifier = Modifier.weight(1f))
         Image(
@@ -212,6 +228,7 @@ fun RecipeHeader(recipe: Recipe){
             text = recipe.rating.toString(),
             fontFamily = InterFontFamily,
             fontSize = 12.sp,
+            color = MaterialTheme.colorScheme.primary
         )
     }
 }
@@ -228,7 +245,9 @@ fun RecipeCookingInfoCard(recipe: Recipe){
             .fillMaxWidth()
             .height(59.dp)
     ) {
-        Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth().padding(horizontal = 26.dp), verticalAlignment = Alignment.CenterVertically) {
+        Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 26.dp), verticalAlignment = Alignment.CenterVertically) {
 
             CookingTime(recipe)
             CookingDifficulty(recipe)
@@ -274,7 +293,8 @@ fun CookingTime(recipe: Recipe){
             fontFamily = InterFontFamily,
             fontWeight = FontWeight.Bold,
             fontSize = 10.sp,
-            lineHeight = 10.sp
+            lineHeight = 10.sp,
+            color = MaterialTheme.colorScheme.primary
         )
 
         Text(text = "Время",
@@ -300,13 +320,14 @@ fun CookingDifficulty(recipe: Recipe){
             Text(
                 text = recipe.difficulty,
                 fontFamily = InterFontFamily,
+                fontWeight = FontWeight.Bold,
                 fontSize = 10.sp,
-                lineHeight = 10.sp
+                lineHeight = 10.sp,
+                color = MaterialTheme.colorScheme.primary
             )
             Text(text = "Сложность",
                 color = MaterialTheme.colorScheme.tertiary,
                 fontFamily = InterFontFamily,
-                fontWeight = FontWeight.Bold,
                 fontSize = 8.sp,
                 lineHeight = 10.sp
             )
@@ -330,7 +351,8 @@ fun PortionAmount(recipe: Recipe){
                 fontFamily = InterFontFamily,
                 fontWeight = FontWeight.Bold,
                 fontSize = 10.sp,
-                lineHeight = 10.sp
+                lineHeight = 10.sp,
+                color = MaterialTheme.colorScheme.primary
             )
             Text(text = "Порции",
                 color = MaterialTheme.colorScheme.tertiary,
@@ -358,7 +380,8 @@ fun Calories(recipe: Recipe){
                 fontFamily = InterFontFamily,
                 fontWeight = FontWeight.Bold,
                 fontSize = 10.sp,
-                lineHeight = 10.sp
+                lineHeight = 10.sp,
+                color = MaterialTheme.colorScheme.primary
             )
             Text(text = "ккал",
                 color = MaterialTheme.colorScheme.tertiary,
@@ -372,11 +395,12 @@ fun Calories(recipe: Recipe){
 
 @Composable
 fun IngridienrsInfoRow(recipe: Recipe){
-    Row() {
+    Row(modifier = Modifier.padding(top = 12.dp)) {
         Text(
             text = "Ингредиенты",
             fontFamily = InterFontFamily,
             fontSize = 20.sp,
+            color = MaterialTheme.colorScheme.primary
         )
         Spacer(modifier = Modifier.weight(1f))
         ServingsAmount(recipe)
@@ -405,4 +429,118 @@ fun ServingsAmount(recipe: Recipe){
         fontWeight = FontWeight.Bold,
         fontSize = 16.sp
     )
+}
+
+
+@Composable
+fun RecipeGridIngredients(ingredients: List<Ingredients>){
+    val rows = (ingredients.size + 1) / 2
+    val height = 20.dp * rows + 7.dp * (rows - 1).coerceAtLeast(0)
+
+    LazyVerticalStaggeredGrid(
+        modifier = Modifier.height(height),
+        userScrollEnabled = false,
+        columns = StaggeredGridCells.Fixed(2),
+        verticalItemSpacing = 7.dp,
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+    ) {
+        items(ingredients) { item -> RecipeGridContent(item) }
+    }
+//    LazyVerticalStaggeredGrid(
+//        columns = StaggeredGridCells.Fixed(2),
+//        verticalItemSpacing = 7.dp,
+//        horizontalArrangement = Arrangement.spacedBy(12.dp),
+//    content =  {
+//        items(ingredients){ item: Ingredients ->
+//            RecipeGridContent(item)
+//        }
+//    }
+//    )
+}
+
+@Composable
+fun RecipeGridContent(ingredients: Ingredients){
+   Row(
+       verticalAlignment = Alignment.CenterVertically
+       ){
+        Image(
+            painter = painterResource(R.drawable.checkbox),
+            contentDescription = null
+        )
+       Spacer(Modifier.width(10.dp))
+        Text(
+            text = ingredients.name,
+            fontFamily = InterFontFamily,
+            fontSize = 10.sp,
+            lineHeight = 12.sp,
+            color = MaterialTheme.colorScheme.primary
+        )
+        Spacer(Modifier.weight(1f))
+       Text(
+           text = stringResource(R.string.recipe_item_units, ingredients.amount, ingredients.unit),
+           color = MaterialTheme.colorScheme.tertiary,
+           lineHeight = 12.sp,
+           fontSize = 9.sp
+       )
+    }
+}
+
+@Composable
+fun CookingTutorial(steps: List<Steps>){
+    Column(modifier = Modifier.padding(vertical = 10.dp, horizontal = 18.dp)){
+        Text(
+            text = "Приготовление",
+            fontFamily = InterFontFamily,
+            fontSize = 20.sp,
+            lineHeight = 24.sp,
+            color = MaterialTheme.colorScheme.primary
+        )
+        Spacer(modifier = Modifier.height(9.dp))
+        Column(verticalArrangement = Arrangement.spacedBy(9.dp)) {
+            steps.forEach { CookingTutorialSteps(it) }
+        }
+    }
+}
+
+@Composable
+fun CookingTutorialSteps(steps: Steps){
+    Row(horizontalArrangement = Arrangement.SpaceBetween){
+        Card(
+            shape = CircleShape,
+            modifier = Modifier
+                .size(28.dp),
+            colors = CardDefaults.cardColors(Color(0xFF3E7B58))
+        ) {
+            val label = if (steps.number < 10.0) "0${stringResource(R.string.step_number, steps.number)}" else steps.number.toString()
+            Box(modifier = Modifier
+                .fillMaxSize(),
+                contentAlignment = Alignment.Center){
+                Text(
+                    modifier = Modifier.padding(9.dp),
+                    text = label,
+                    fontFamily = InterFontFamily,
+                    lineHeight = 11.sp,
+                    fontSize = 9.sp,
+                    color = MaterialTheme.colorScheme.onTertiary
+                )
+            }
+        }
+            Spacer(Modifier.width(10.dp))
+            Column() {
+                Text(
+                    text = steps.title,
+                    fontFamily = InterFontFamily,
+                    lineHeight = 13.sp,
+                    fontSize = 11.sp,
+                    color = MaterialTheme.colorScheme.primary
+                )
+                Text(
+                    text = steps.description,
+                    fontFamily = InterFontFamily,
+                    lineHeight = 12.sp,
+                    fontSize = 9.sp,
+                    color = MaterialTheme.colorScheme.tertiary
+                )
+        }
+    }
 }

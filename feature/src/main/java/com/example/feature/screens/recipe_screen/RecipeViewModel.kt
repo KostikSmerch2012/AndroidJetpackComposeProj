@@ -3,6 +3,7 @@ package com.example.feature.screens.recipe_screen
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.model.Category
+import com.example.domain.model.recipie.Ingredients
 import com.example.domain.model.recipie.Recipe
 import com.example.domain.repository.CategoryRepository
 import com.example.domain.repository.RecipeRepository

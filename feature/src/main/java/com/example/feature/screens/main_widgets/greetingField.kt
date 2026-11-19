@@ -43,7 +43,9 @@ fun GreetingField(user: User){
                 color = MaterialTheme.colorScheme.secondary)
             Text(text = stringResource(R.string.what_cook),
                 fontFamily = FontFamily(Font(R.font.inter_normal, FontWeight(400))),
-                fontSize = 24.sp)
+                fontSize = 24.sp,
+                color = MaterialTheme.colorScheme.primary
+            )
         }
             greetingProfileImage(user)
 

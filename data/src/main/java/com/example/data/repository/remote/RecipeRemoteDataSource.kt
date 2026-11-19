@@ -24,7 +24,6 @@ class RecipeRemoteDataSource(private val apiService : ApiService) {
         description: String? = null,
         servings: Int? = null,
         calories: Int? = null,
-        ingredients: List<Ingredients>? = null
     ) : ResponseModel<RecipiesResponse> {
         try {
             val response = apiService.getRecipes(
@@ -41,7 +40,6 @@ class RecipeRemoteDataSource(private val apiService : ApiService) {
                 description,
                 servings,
                 calories,
-                ingredients
             )
 //            if (response.code() >= 400) {
 //                return ResponseModel(error = response.

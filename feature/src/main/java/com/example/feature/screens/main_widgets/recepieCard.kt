@@ -133,7 +133,8 @@ fun BoxScope.iconTopStart(text : String) {
 fun BoxScope.iconTopEnd(){
     Card(
         shape = CircleShape,
-        colors = CardDefaults.cardColors(Color(0xFFFFFFFFE8).copy(alpha = 0.9f)),
+        colors = CardDefaults.cardColors(Color(0xFFFFFFFF).copy(alpha = 0.9f)),
+//        colors = CardDefaults.cardColors(Color(0xFFFFFFFFE8).copy(alpha = 0.9f)),
         modifier = Modifier
             .padding(vertical = 16.dp, horizontal = 16.dp)
             .align(Alignment.TopEnd)

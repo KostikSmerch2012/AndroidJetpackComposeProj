@@ -39,8 +39,6 @@ interface ApiService {
         servings: Int?,
         @Query("calories")
         calories: Int?,
-        @Query("ingredients")
-        ingredients: List<Ingredients>?
     ): Response<RecipiesResponse>
 
     @GET("recipes/{id}")

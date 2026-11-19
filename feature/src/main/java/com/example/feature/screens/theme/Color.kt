@@ -11,6 +11,7 @@ val PurpleGrey40 = Color(0xFF625b71)
 val Pink40 = Color(0xFF7D5260)
 //val KuhnyaCreamy = Color(0xFFE5DED2)
 
+val KuhnyaPrimary = Color(0xFF29261F) // основной текст
 val KuhnyaBackground = Color(0xFFF6F1E8) // фон приложения
 val KuhnyaSurface = Color(0xFFFFFCF7) // Карточки
 val KuhnyaOnSecondary = Color(0xFF3E7B58) // выбранная иконка
