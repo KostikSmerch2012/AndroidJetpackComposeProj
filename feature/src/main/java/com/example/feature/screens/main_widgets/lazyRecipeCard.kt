@@ -179,7 +179,9 @@ fun CategoriesCard(categories: List<Category>){
     }
 }
 @Composable
-fun CategoryText() {
+fun CategoryText(
+    onAllCategoriesClick: () -> Unit
+) {
     Row (modifier = Modifier
         .padding(start = 16.dp, end = 16.dp, bottom = 10.dp)
         .fillMaxWidth(), verticalAlignment = Alignment.CenterVertically){
@@ -190,6 +192,9 @@ fun CategoryText() {
         )
         Spacer(modifier = Modifier.weight(1f))
         Text(
+            modifier = Modifier
+                .clickable{onAllCategoriesClick()}
+                .padding(4.dp),
             text = "Все категории",
             color = MaterialTheme.colorScheme.secondary,
             fontFamily = InterFontFamily,

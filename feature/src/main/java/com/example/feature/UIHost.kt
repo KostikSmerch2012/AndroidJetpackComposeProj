@@ -3,16 +3,17 @@ package com.example.feature
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarDefaults
 import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationBarItemColors
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -26,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -35,6 +37,8 @@ import com.example.feature.home.MainScreen
 import com.example.feature.screens.recipe_screen.RecipeScreen
 import com.example.feature.navigation.AppDestination
 import com.example.feature.navigation.DestinationNavBar
+import com.example.feature.screens.all_categories_screen.CategoriesScreen
+import com.example.feature.screens.all_categories_widgets.OnMainButton
 
 @Composable
 fun UIHost() {
@@ -45,29 +49,41 @@ fun UIHost() {
     Scaffold(
         modifier = Modifier.imePadding(),
         bottomBar = {
-            NavigationBar(containerColor = MaterialTheme.colorScheme.background, windowInsets = NavigationBarDefaults.windowInsets) {
-                DestinationNavBar.entries.forEachIndexed { index, destination ->
-                    NavigationBarItem(
-                        selected = selectedDestination == index,
-                        onClick = {
-                            navController.navigate(route = destination.appDestination.route)
-                            selectedDestination = index
-                        },
-                        icon = {
-                            Log.i("DRAW ICON", destination.icon.toString() + " " + destination.label.toString())
-                            Icon(
-                                painterResource(destination.icon),
-                                contentDescription = null
+            Column {
+                HorizontalDivider(
+                    thickness = 1.dp,
+                    color = Color(0xFFE5DED2)
+                )
+                NavigationBar(
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    windowInsets = NavigationBarDefaults.windowInsets
+                ) {
+                    DestinationNavBar.entries.forEachIndexed { index, destination ->
+                        NavigationBarItem(
+                            selected = selectedDestination == index,
+                            onClick = {
+                                navController.navigate(route = destination.appDestination.route)
+                                selectedDestination = index
+                            },
+                            icon = {
+                                Log.i(
+                                    "DRAW ICON",
+                                    destination.icon.toString() + " " + destination.label.toString()
+                                )
+                                Icon(
+                                    painterResource(destination.icon),
+                                    contentDescription = null
+                                )
+                            },
+                            label = { Text(destination.label) },
+                            colors = NavigationBarItemDefaults.colors(
+                                selectedIconColor = MaterialTheme.colorScheme.secondary,
+                                selectedTextColor = MaterialTheme.colorScheme.secondary,
+                                unselectedIconColor = MaterialTheme.colorScheme.tertiary,
+                                unselectedTextColor = MaterialTheme.colorScheme.tertiary,
                             )
-                        },
-                        label = { Text(destination.label) },
-                        colors = NavigationBarItemDefaults.colors(
-                            selectedIconColor = MaterialTheme.colorScheme.secondary,
-                            selectedTextColor = MaterialTheme.colorScheme.secondary,
-                            unselectedIconColor = MaterialTheme.colorScheme.tertiary,
-                            unselectedTextColor = MaterialTheme.colorScheme.tertiary,
-                            )
-                    )
+                        )
+                    }
                 }
             }
         }
@@ -102,7 +118,12 @@ fun UIHost() {
                                 Box(Modifier.padding(paddingValues)) {
                                     val id = backStackEntry.arguments?.getString("id")
                                     if (id != null) {
-                                        RecipeScreen(id)
+                                        RecipeScreen(id, onBackClick = {
+                                            if (navController.previousBackStackEntry != null) {
+                                                navController.popBackStack()
+                                            }
+                                        }
+                                        )
                                     } else {
                                         Box(
                                             Modifier.fillMaxSize(),
@@ -111,7 +132,28 @@ fun UIHost() {
                                     }
                                 }
                             }
-
+                            AppDestination.CATEGORY_CARD -> composable (
+                                destination.route,
+                                arguments = listOf(
+                                    navArgument("id") {
+                                        type = NavType.StringType
+                                        defaultValue = "null"
+                                    }
+                                )
+                            ) {
+                                backStackEntry ->
+                                val id = backStackEntry.arguments?.getString("id") ?: ""
+                                Box(Modifier.padding(paddingValues)) {
+                                        CategoriesScreen(
+                                            id = id,
+                                            onBackClick = {
+                                                if (navController.previousBackStackEntry != null) {
+                                                    navController.popBackStack()
+                                                }
+                                            }
+                                        )
+                                    }
+                                }
                             //todo остальные экраны
                             else -> composable(destination.route) {Box(Modifier.padding(paddingValues)) {
                                 //...

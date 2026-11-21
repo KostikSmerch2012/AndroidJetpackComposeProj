@@ -58,7 +58,11 @@ fun MainScreen(navController: NavController, modifier: Modifier = Modifier){
             }
         }
 
-        CategoryText()
+        CategoryText(
+            onAllCategoriesClick = {
+                navController.navigate(AppDestination.CATEGORY_CARD.route)
+            }
+        )
 
         if (categories.isNullOrEmpty()) {
             Box(modifier = Modifier.height(48.dp))

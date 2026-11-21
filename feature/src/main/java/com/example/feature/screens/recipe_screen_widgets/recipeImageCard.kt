@@ -2,6 +2,7 @@ package com.example.feature.screens.recipe_screen_widgets
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.snapping.SnapPosition
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -41,31 +42,37 @@ import com.example.domain.model.recipie.Recipe
 import com.example.feature.R
 import com.example.feature.screens.theme.InterFontFamily
 import androidx.compose.foundation.lazy.staggeredgrid.items
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.style.LineHeightStyle
 import com.example.domain.model.recipie.Steps
 
 
 @Composable
-fun RecipeCard(recipe: Recipe){
+fun RecipeCard(recipe: Recipe, onBackClick: () -> Unit){
     Box(modifier = Modifier
         .height(248.dp)
         .fillMaxWidth()) {
         RecipeImageCard(recipe)
-        RecipeButtonsRow()
+        RecipeButtonsRow(onBackClick)
         UserCooking(recipe)
     }
     RecipeInfoCard(recipe)
 }
 
 @Composable
-fun RecipeButtonsRow(){
+fun RecipeButtonsRow(
+    onBackClick: () -> Unit
+){
     Row(
         modifier = Modifier
             .padding(14.dp)
             .fillMaxWidth(),
     ){
-        OnBackPressedButton()
+        OnBackPressedButton(onBackClick)
         Spacer(Modifier.weight(1f))
         ShareRecipeButton()
         Spacer(Modifier.width(8.dp))
@@ -85,16 +92,17 @@ fun RecipeImageCard(recipe: Recipe){
 }
 
 @Composable
-fun OnBackPressedButton(){
+fun OnBackPressedButton(onBackClick: () -> Unit){
     Card(
         shape = CircleShape,
         colors = CardDefaults.cardColors(Color(0xFFFFFFFF).copy(alpha = 0.9f)),
         modifier = Modifier
-            .size(40.dp)) {
+            .size(40.dp)
+            .clickable{ onBackClick()}) {
         Box(modifier = Modifier
             .fillMaxSize()
             .align(Alignment.Start),
-            contentAlignment = Alignment.TopCenter) {
+            contentAlignment = Alignment.Center) {
             Image(
                 modifier = Modifier
                     .padding(all = 12.dp),
@@ -115,7 +123,7 @@ fun ShareRecipeButton(){
         Box(modifier = Modifier
             .fillMaxSize()
             .align(Alignment.End),
-            contentAlignment = Alignment.TopCenter) {
+            contentAlignment = Alignment.Center) {
             Image(
                 modifier = Modifier
                     .padding(all = 12.dp),
@@ -136,7 +144,7 @@ fun SavedRecipeButton(modifier: Modifier = Modifier){
         Box(modifier = Modifier
             .fillMaxSize()
             .align(Alignment.End),
-            contentAlignment = Alignment.TopCenter) {
+            contentAlignment = Alignment.Center) {
             Image(
                 modifier = Modifier
                     .padding(all = 12.dp),
@@ -176,6 +184,9 @@ fun UserCooking(recipe: Recipe) {
 
 @Composable
 fun RecipeInfoCard(recipe : Recipe){
+
+    var selected by remember { mutableIntStateOf(recipe.servings) }
+
     Card(
         modifier = Modifier
         //        .fillMaxSize(),ПУ ПУ ПУ - ТЫ В LazyColumn ебашишь fillmaxsize = fillmaxheight - а откуда лейзиколумну считать область прокрутки если у тебя fill max size, если высота не ограничена мля  Vertically scrollable component was measured with an infinity maximum height constraints, which is disallowed
@@ -198,7 +209,7 @@ fun RecipeInfoCard(recipe : Recipe){
             RecipeCookingInfoCard(recipe)
             IngridienrsInfoRow(recipe)
             Spacer(Modifier.height(9.dp))
-            RecipeGridIngredients(recipe.ingredients.orEmpty())
+            RecipeGridIngredients(recipe.ingredients.orEmpty(), recipe, selected)
         }
     }
     CookingTutorial(recipe.steps.orEmpty())
@@ -418,7 +429,7 @@ fun ServingsAmount(recipe: Recipe){
     )
     Text(modifier = Modifier.padding(horizontal = 7.dp),
         text = pluralStringResource(R.plurals.servings_amount, recipe.servings, recipe.servings),
-        color = MaterialTheme.colorScheme.secondary,
+        color = MaterialTheme.colorScheme.primary,
         fontFamily = InterFontFamily,
         fontWeight = FontWeight.Bold,
     )
@@ -433,7 +444,7 @@ fun ServingsAmount(recipe: Recipe){
 
 
 @Composable
-fun RecipeGridIngredients(ingredients: List<Ingredients>){
+fun RecipeGridIngredients(ingredients: List<Ingredients>, recipe: Recipe, selected: Int){
     val rows = (ingredients.size + 1) / 2
     val height = 20.dp * rows + 7.dp * (rows - 1).coerceAtLeast(0)
 
@@ -444,22 +455,12 @@ fun RecipeGridIngredients(ingredients: List<Ingredients>){
         verticalItemSpacing = 7.dp,
         horizontalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        items(ingredients) { item -> RecipeGridContent(item) }
+        items(ingredients) { item -> RecipeGridContent(item, recipe, selected) }
     }
-//    LazyVerticalStaggeredGrid(
-//        columns = StaggeredGridCells.Fixed(2),
-//        verticalItemSpacing = 7.dp,
-//        horizontalArrangement = Arrangement.spacedBy(12.dp),
-//    content =  {
-//        items(ingredients){ item: Ingredients ->
-//            RecipeGridContent(item)
-//        }
-//    }
-//    )
 }
 
 @Composable
-fun RecipeGridContent(ingredients: Ingredients){
+fun RecipeGridContent(ingredients: Ingredients, recipe: Recipe, selected: Int){
    Row(
        verticalAlignment = Alignment.CenterVertically
        ){
@@ -477,7 +478,7 @@ fun RecipeGridContent(ingredients: Ingredients){
         )
         Spacer(Modifier.weight(1f))
        Text(
-           text = stringResource(R.string.recipe_item_units, ingredients.amount, ingredients.unit),
+           text = stringResource(R.string.recipe_item_units, ingredients.amount * selected / recipe.servings, ingredients.unit),
            color = MaterialTheme.colorScheme.tertiary,
            lineHeight = 12.sp,
            fontSize = 9.sp
@@ -511,13 +512,11 @@ fun CookingTutorialSteps(steps: Steps){
                 .size(28.dp),
             colors = CardDefaults.cardColors(Color(0xFF3E7B58))
         ) {
-            val label = if (steps.number < 10.0) "0${stringResource(R.string.step_number, steps.number)}" else steps.number.toString()
             Box(modifier = Modifier
                 .fillMaxSize(),
                 contentAlignment = Alignment.Center){
                 Text(
-                    modifier = Modifier.padding(9.dp),
-                    text = label,
+                    text = "0${stringResource(R.string.step_number, steps.number)}",
                     fontFamily = InterFontFamily,
                     lineHeight = 11.sp,
                     fontSize = 9.sp,

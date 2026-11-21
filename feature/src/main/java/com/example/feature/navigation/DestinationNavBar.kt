@@ -24,7 +24,8 @@ enum class AppDestination(
     SAVED("saved"),
     CREATE("create"),
     PROFILE("profile"),
-    DETAIL_CARD("detail/{id}");
+    DETAIL_CARD("detail/{id}"),
+    CATEGORY_CARD("category");
 
     fun createRoute(id: String): String {
         return route.replace("{id}", id)

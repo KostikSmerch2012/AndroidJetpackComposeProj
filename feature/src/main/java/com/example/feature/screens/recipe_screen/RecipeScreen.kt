@@ -15,7 +15,7 @@ import com.example.feature.screens.recipe_screen_widgets.RecipeCard
 import com.example.feature.screens.recipe_screen_widgets.RecipeImageCard
 
 @Composable
-fun RecipeScreen(id : String){
+fun RecipeScreen(id : String, onBackClick: () -> Unit){
 
     val vm  = viewModel<RecipeViewModel>()
 
@@ -29,7 +29,7 @@ fun RecipeScreen(id : String){
 
     LazyColumn {
         item {
-            RecipeCard(recipe!!)
+            RecipeCard(recipe!!, onBackClick)
         }
     }
 }
